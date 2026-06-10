@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 public class SimulationDriver {
 
-	private static Random rand = new Random(); // Random object so I dont recreate one each type generate functions are used
+	private static Random rand = new Random(); // Random object so I dont recreate one each time the generate functions are used
 
 	private static ArrayList<String> generateRandomMultipleChoice(String [] choices){
 		int choicesAmount = rand.nextInt(choices.length) + 1; // Random amount of selected answers
