@@ -50,6 +50,7 @@ public class SimulationDriver {
 		// Creating the random question, its about my favorite anime
 		Question question1 = new SingleChoiceQuestion("What is your favorite One Piece character?", new HashMap<>(Map.of("A", "Luffy", "B", "Chopper", "C", "Zoro", "D", "Sanji")));
 
+
 		// Creating VotingService object for given question
 		VotingService query = new VotingService(question1);
 
@@ -78,5 +79,39 @@ public class SimulationDriver {
 
 		query.displayQuestion();
 		query.displayResult();
+		System.out.println();
+
+		// Same process but for MultipleChoiceQuestion
+		Question question2 = new MultipleChoiceQuestion("What are your favorite fast food places?", new HashMap<>(Map.of("A", "Mcdonalds", "B", "In-n-Out", "C", "Wendys", "D", "Chic Fil A")));
+		
+
+		// Creating VotingService object for given question
+		VotingService query2 = new VotingService(question2);
+
+		for(Student s : students){
+			if(question2 instanceof SingleChoiceQuestion){
+				query2.submission(s.getId(), generateRandomSingleChoice(options));
+				if(Integer.parseInt(s.getId()) % 2 == 0){ // This is to incorporate some multiple submission cases for the part about taking the most recent submission
+					query2.submission(s.getId(), generateRandomSingleChoice(options));
+				}
+			}
+
+			else{
+				ArrayList<String> studentAnswers = generateRandomMultipleChoice(options);
+				String finalAnswer = String.join(" ", studentAnswers); // Will give the multiple answers to VotingService class as a String of the answers seperated by spaces
+
+				query2.submission(s.getId(), finalAnswer);
+
+				if(Integer.parseInt(s.getId()) % 2 == 0){ // This is to incorporate some multiple submission cases for the part about taking the most recent submission
+					ArrayList<String> studentAnswers2 = generateRandomMultipleChoice(options);
+					String finalAnswer2 = String.join(" ", studentAnswers2); // Will give the multiple answers to VotingService class as a String of the answers seperated by spaces
+
+					query2.submission(s.getId(), finalAnswer2);
+				}
+			}
+		}
+		System.out.println();
+		query2.displayQuestion();
+		query2.displayResult();
 	}
 }
